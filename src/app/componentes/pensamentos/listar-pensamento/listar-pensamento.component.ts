@@ -13,6 +13,7 @@ export class ListarPensamentoComponent implements OnInit {
   paginaAtual: number = 1;
   haMaisPensamentos: boolean = true;
   filtro: string = ''
+  mostrarFavoritos: boolean = false;
 
   constructor(private service: PensamentoService) { }
 
@@ -33,13 +34,24 @@ export class ListarPensamentoComponent implements OnInit {
   }
 
   pesquisarPensamentos() {
-    console.log("ativou filtro")
     this.haMaisPensamentos = true
     this.paginaAtual = 1;
     this.service.listar(this.paginaAtual, this.filtro)
       .subscribe((listaPensamentos) => {
         this.listaPensamentos = listaPensamentos
     });
+  }
+
+  filtrarFavoritos() {
+    this.haMaisPensamentos = true
+    this.paginaAtual = 1
+    this.service.listar(
+      this.paginaAtual,
+      this.filtro,
+      true
+    ).subscribe((lista) => {
+      this.listaPensamentos = lista
+    })
   }
 }
 

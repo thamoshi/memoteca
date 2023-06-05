@@ -12,16 +12,25 @@ export class PensamentoService {
 
   constructor(private http: HttpClient) { }
 
-  listar(pagina: number, filtro: string): Observable<Pensamento[]> {
+  listar(
+    pagina: number,
+    filtro: string,
+    favoritos: boolean = false
+    ): Observable<Pensamento[]> {
     const itensPorPagina = 6
 
     let params = new HttpParams()
       .set("_page", pagina)
       .set("_limit", itensPorPagina)
 
+
     if (filtro.trim().length > 2) {
       console.log("tem mais de dois caracteres")
       params = params.set("q", filtro)
+    }
+
+    if (favoritos) {
+      params = params.set("favorito", true)
     }
 
     console.log(params)
